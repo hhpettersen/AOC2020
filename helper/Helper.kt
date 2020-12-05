@@ -1,4 +1,4 @@
-package com.example.aoc.Helper
+package com.example.aoc.helper
 
 import java.io.File
 
