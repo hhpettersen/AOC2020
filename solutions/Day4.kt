@@ -2,31 +2,6 @@ package com.example.aoc
 
 fun main() {
 
-    fun parseInput(input: String): List<String> {
-        val splitInput = input.split("")
-        val parsed = mutableListOf<String>()
-        var latestIndex = 0
-        splitInput.forEachIndexed { index, s ->
-            if (s == "\n" && splitInput[index - 1] == "\n") {
-                val field = splitInput.subList(latestIndex, index)
-                    .joinToString("")
-                    .trim()
-                    .replace("\n", " ")
-                parsed.add(field)
-                latestIndex = index
-            }
-            if (index == splitInput.size - 1) {
-                parsed.add(
-                    splitInput.subList(latestIndex, index)
-                        .joinToString("")
-                        .trim()
-                        .replace("\n", " ")
-                )
-            }
-        }
-        return parsed
-    }
-
     fun containsAllValidFields(string: String): Boolean {
         val req = listOf("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")
         val sum = req.sumBy {
@@ -36,13 +11,14 @@ fun main() {
     }
 
     fun solutionOne(input: String): Int {
-        return parseInput(input).sumBy {
+        val parsed = input.split("\n\n").map { it.replace("\n", " ") }
+        return parsed.sumBy {
             if(containsAllValidFields(it)) 1 else 0
         }
     }
 
     fun solutionTwo(input: String): Int {
-        val parsed = parseInput(input)
+        val parsed = input.split("\n\n").map { it.replace("\n", " ") }
         var count = 0
         parsed.forEach { field ->
             if (containsAllValidFields(field)) {
